@@ -162,8 +162,9 @@ public class TrainBookingSystem {
                         bookingList.loadFromFile();
                         break;
                     case "3.2":
-                        System.out.print("Enter bcode,tcode,pcode,seat: ");
-                        String[] b = scanner.nextLine().split(",");
+                        System.out.print("Enter bcode,tcode: ");
+                        String[] bookFields = scanner.nextLine().split(",");
+                        bookingList.bookTrain(bookFields[0], bookFields[1], trainList, passengerList);
                         break;
                     case "3.3":
                         bookingList.display();
@@ -172,11 +173,12 @@ public class TrainBookingSystem {
                         bookingList.saveToFile();
                         break;
                     case "3.5":
-                        // bookingList.sort();
+                        bookingList.sortByTcodeAndPcode();
                         break;
                     case "3.6":
                         System.out.print("Enter tcode and pcode to pay: ");
                         String[] payInput = scanner.nextLine().split(",");
+                        bookingList.payBooking(payInput[0], payInput[1]);
                         break;
 
                     case "0":

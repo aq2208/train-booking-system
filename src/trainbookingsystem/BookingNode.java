@@ -4,6 +4,8 @@
  */
 package trainbookingsystem;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author DELL
@@ -27,6 +29,8 @@ public class BookingNode {
 
     @Override
     public String toString() {
-        return data.getBcode() + "," + data.getPcode() + "," + data.getOdate() + "," + data.getPaid() + "," + data.getSeat();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(data.getOdate());
+        return data.getBcode() + "," + data.getPcode() + "," + formattedDate + "," + data.getPaid() + "," + data.getSeat();
     }
 }

@@ -116,4 +116,83 @@ public class BookingLinkedList {
             }
         }
     }
+
+    public void bookTrain(String tcode, String pcode, TrainLinkedList trainList, PassengerLinkedList passengerList) {
+        if (tcode == null || tcode.isEmpty() || pcode == null || pcode.isEmpty()) {
+            System.out.println("ERROR: Invalid booking details.");
+            return;
+        }
+
+        TrainNode trainCurrent = trainList.head;
+        while (trainCurrent != null) {
+            if (trainCurrent.data.getTcode().equals(tcode)) {
+                if (trainCurrent.data.getSeat() >= trainCurrent.data.getBooked() + 1) {
+                    Booking newBooking = new Booking(tcode, pcode, new Date(), 0, 1);
+                    BookingNode newNode = new BookingNode(newBooking);
+                    if (head == null) {
+                        head = newNode;
+                    } else {
+                        BookingNode current = head;
+                        while (current.next != null) {
+                            current = current.next;
+                        }
+                        current.next = newNode;
+                    }
+                    trainCurrent.data.setBooked(trainCurrent.data.getBooked() + 1);
+                    System.out.println("Booking successful.");
+                } else {
+                    System.out.println("ERROR: Not enough seats available.");
+                }
+                return;
+            }
+            trainCurrent = trainCurrent.next;
+        }
+        System.out.println("ERROR: Train not found.");
+    }
+
+    public void payBooking(String tcode, String pcode) {
+        if (tcode == null || tcode.isEmpty() || pcode == null || pcode.isEmpty()) {
+            System.out.println("ERROR: Invalid booking details.");
+            return;
+        }
+
+        BookingNode current = head;
+        while (current != null) {
+            if (current.data.getBcode().equals(tcode) && current.data.getPcode().equals(pcode)) {
+                if (current.data.getPaid() == 1) {
+                    System.out.println("ERROR: Booking already paid.");
+                    return;
+                }
+                current.data.setPaid(1);
+                System.out.println("Pay booking successful.");
+                return;
+            }
+            current = current.next;
+        }
+        System.out.println("ERROR: Booking not found.");
+    }
+
+    public void sortByTcodeAndPcode() {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        BookingNode current = head;
+        BookingNode index = null;
+        Booking temp;
+
+        while (current != null) {
+            index = current.next;
+
+            while (index != null) {
+                if (current.data.getBcode().compareTo(index.data.getBcode()) > 0) {
+                    temp = current.data;
+                    current.data = index.data;
+                    index.data = temp;
+                }
+                index = index.next;
+            }
+            current = current.next;
+        }
+    }
 }
