@@ -1,0 +1,6 @@
+T016,Coastal Rider,Quy Nhon,Nha Trang,13.0,17.0,60,8
+T014,Morning Star,Vinh,Thanh Hoa,5.3,8.0,70,5
+T022,Express 1,Hanoi,Saigon,8.3,20.3,100,20
+T008,Express 2,Danang,Hue,10.0,14.0,80,10
+T001,Coastal Line,Nha Trang,Vung Tau,9.0,17.0,120,30
+T100,Mountain Rider,Dalat,Buon Ma Thuot,6.0,11.0,60,5

@@ -19,7 +19,7 @@ import java.util.Set;
  * @author DELL
  */
 public class TrainLinkedList {
-    private TrainNode head;
+    public TrainNode head;
 
     private TrainNode tail;
 
@@ -124,23 +124,24 @@ public class TrainLinkedList {
 
             System.out.println("Load data from file successful!");
         } catch (IOException e) {
-            System.out.println("Error reading trains file.");
+            System.out.println("Error reading trains file");
         }
     }
 
     public void saveToFile() {
-        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/trains.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/trains_save.txt";
         clearFile(fileName);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             TrainNode current = head;
             while (current != null) {
-                writer.write(current.data.toString());
+                String line = current.toString();
+                writer.write(line);
                 writer.newLine();
                 current = current.next;
             }
 
-            System.out.println("Train list saved to file successfully.");
+            System.out.println("Train list saved to file successfully");
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }

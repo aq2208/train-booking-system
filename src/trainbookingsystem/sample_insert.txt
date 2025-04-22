@@ -7,3 +7,9 @@ T014,Morning Star,Vinh,Thanh Hoa,05.30,08.00,70,5
 T015,Sunshine Express,Saigon,Nha Trang,10.00,16.00,110,18
 T016,Coastal Rider,Quy Nhon,Nha Trang,13.00,17.00,60,8
 
+Passenger
+P005,Alice Johnson,0123456789
+P006,Bob Smith,0987654321
+P007,Charlie Brown,0112233445
+P008,Diana Prince,0223344556
+P009,Edward Elric,0334455667

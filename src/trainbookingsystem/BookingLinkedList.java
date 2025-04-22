@@ -69,11 +69,11 @@ public class BookingLinkedList {
     }
 
     public void saveToFile() {
-        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/bookings.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/bookings_save.txt";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             BookingNode current = head;
             while (current != null) {
-                bw.write(current.data.toString());
+                bw.write(current.toString());
                 bw.newLine();
                 current = current.next;
             }

@@ -150,22 +150,12 @@ public class TrainBookingSystem {
                     case "2.7":
                         System.out.print("Enter name to search: ");
                         String pname = scanner.nextLine();
-                        PassengerNode currentP = passengerList.head;
-                        boolean foundP = false;
-                        while (currentP != null) {
-                            if (currentP.data.getName().equalsIgnoreCase(pname)) {
-                                System.out.println(currentP.toString());
-                                foundP = true;
-                            }
-                            currentP = currentP.next;
-                        }
-                        if (!foundP)
-                            System.out.println("Passenger not found.");
+                        passengerList.searchByName(pname);
                         break;
                     case "2.8":
                         System.out.print("Enter pcode: ");
                         String pc = scanner.nextLine();
-                        passengerList.searchByPcode(pc);
+                        passengerList.searchTrainsByPcode(pc, bookingList, trainList);
                         break;
 
                     case "3.1":
