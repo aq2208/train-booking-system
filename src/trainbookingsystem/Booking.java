@@ -4,7 +4,7 @@
  */
 package trainbookingsystem;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Booking {
 
     private Date odate;
 
-    private Date paid;
+    private int paid;
 
     private int seat;
 
@@ -45,11 +45,11 @@ public class Booking {
         this.odate = odate;
     }
 
-    public Date getPaid() {
+    public int getPaid() {
         return paid;
     }
 
-    public void setPaid(Date paid) {
+    public void setPaid(int paid) {
         this.paid = paid;
     }
 
@@ -63,7 +63,7 @@ public class Booking {
 
     public Booking() {}
 
-    public Booking(String bcode, String pcode, Date odate, Date paid, int seat) {
+    public Booking(String bcode, String pcode, Date odate, int paid, int seat) {
         this.bcode = bcode;
         this.pcode = pcode;
         this.odate = odate;

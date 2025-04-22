@@ -49,7 +49,7 @@ public class PassengerLinkedList {
     }
 
     public void loadFromFile() {
-        String fileName = "passengers.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/passengers.txt";
         head = null;
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -64,7 +64,7 @@ public class PassengerLinkedList {
     }
 
     public void saveToFile() {
-        String fileName = "passengers.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/passengers.txt";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             PassengerNode current = head;
             while (current != null) {

@@ -67,7 +67,8 @@ public class TrainLinkedList {
         tcodeSet.add(tcode);
     }
 
-    private boolean validateData(String tcode, String name, String dstation, String astation, double dtime, double atime, int seat, int booked) {
+    private boolean validateData(String tcode, String name, String dstation, String astation, double dtime,
+            double atime, int seat, int booked) {
         // tcode unique
         if (tcodeSet.contains(tcode)) {
             System.out.println("ERROR: tcode existed");
@@ -95,7 +96,7 @@ public class TrainLinkedList {
         if (dtime > 24 || atime > 24 || dtime > atime) {
             System.out.println("ERROR: failed validate dtime ≤ atime ≤ 24");
         }
-        
+
         return true;
     }
 
@@ -162,7 +163,7 @@ public class TrainLinkedList {
             }
             current = current.next;
         }
-        
+
         System.out.println("Train not found");
     }
 
@@ -175,46 +176,48 @@ public class TrainLinkedList {
             }
             current = current.next;
         }
-        
+
         System.out.println("Train not found");
     }
 
     public void searchBookedByTcode(String tcode, BookingLinkedList bookingList, PassengerLinkedList passengerList) {
         System.out.println("Train data: ");
 
-        // input tcode to be searched, then return the train data or not found; Then list all passengers who booked the train
+        // input tcode to be searched, then return the train data or not found; Then
+        // list all passengers who booked the train
         TrainNode current = head;
         while (current != null) {
             if (current.data.getTcode().equals(tcode)) {
                 System.out.println(current.toString());
-                return;
-            }
-            current = current.next;
-        }
 
-        System.out.println("Passenger who booked the train data: ");
+                System.out.println("Passenger who booked the train data: ");
 
-        // list all passengers who booked the train
-        BookingNode bookingCurrent = bookingList.head;
-        while (bookingCurrent != null) {
-            if (bookingCurrent.data.getBcode().equals(tcode)) {
-                PassengerNode passengerCurrent = passengerList.head;
-                while (passengerCurrent != null) {
-                    if (passengerCurrent.data.getPcode().equals(bookingCurrent.data.getPcode())) {
-                        System.out.println(passengerCurrent.toString());
+                // list all passengers who booked the train
+                BookingNode bookingCurrent = bookingList.head;
+                while (bookingCurrent != null) {
+                    if (bookingCurrent.data.getBcode().equals(tcode)) {
+                        PassengerNode passengerCurrent = passengerList.head;
+                        while (passengerCurrent != null) {
+                            if (passengerCurrent.data.getPcode().equals(bookingCurrent.data.getPcode())) {
+                                System.out.println(passengerCurrent.toString());
+                            }
+                            passengerCurrent = passengerCurrent.next;
+                        }
+                        // return;
                     }
-                    passengerCurrent = passengerCurrent.next;
+                    bookingCurrent = bookingCurrent.next;
                 }
                 return;
             }
-            bookingCurrent = bookingCurrent.next;
+            current = current.next;
         }
 
         System.out.println("Train not found");
     }
 
     public void sortByTcode() {
-        if (head == null) return;
+        if (head == null)
+            return;
 
         List<Train> trains = new ArrayList<>();
         TrainNode current = head;
@@ -237,12 +240,15 @@ public class TrainLinkedList {
 
         // display
         for (Train train : trains) {
-            System.out.println(train.getTcode() + "," + train.getName() + "," + train.getDstation() + "," + train.getAstation() + "," + train.getDtime() + "," + train.getAtime() + "," + train.getSeat() + "," + train.getBooked());
+            System.out.println(train.getTcode() + "," + train.getName() + "," + train.getDstation() + ","
+                    + train.getAstation() + "," + train.getDtime() + "," + train.getAtime() + "," + train.getSeat()
+                    + "," + train.getBooked());
         }
     }
 
-    public void addBeforePosition(int k, String tcode, String name, String dstation, String astation, double dtime, double atime, int seat, int booked) {
-        if (k < 0) {
+    public void addBeforePosition(int k, String tcode, String name, String dstation, String astation, double dtime,
+            double atime, int seat, int booked) {
+        if (k < 1) {
             System.out.println("ERROR: k value invalid!");
             return;
         }
@@ -250,7 +256,7 @@ public class TrainLinkedList {
         if (!validateData(tcode, name, dstation, astation, dtime, atime, seat, booked)) {
             return;
         }
-        
+
         if (k == 1) {
             // add first
             addFirst(tcode, name, dstation, astation, dtime, atime, seat, booked);
@@ -261,20 +267,28 @@ public class TrainLinkedList {
 
         int index = 1;
         TrainNode current = head;
-        while (index < (k - 2) && current != null) {
+        TrainNode previous = null;
+        while (index < k && current != null) {
+            previous = current;
             current = current.next;
             index++;
         }
 
-        // index = k - 2 now
+        // index = k - 1 now
 
-        if (index != (k - 2) || current == null) {
+        if (index != k || current == null) {
             System.out.println("ERROR: k element not found");
             return;
         }
 
-        newTrainNode.next = current.next;
-        current.next = newTrainNode;
+        if (previous == null) {
+            // add first
+            head = newTrainNode;
+        } else {
+            previous.next = newTrainNode;
+            newTrainNode.next = current;
+        }
+
         tcodeSet.add(tcode);
 
         System.out.println("Add before position " + k + " successful");
@@ -297,21 +311,25 @@ public class TrainLinkedList {
             if (current.next.data.getTcode().equals(tcode)) {
                 current.next = current.next.next;
                 System.out.println("Delete train successful!");
+
+                // delete all related records in booking list
+                BookingNode bookingCurrent = bookingList.head;
+                while (bookingCurrent != null) {
+                    if (bookingCurrent.data.getBcode().equals(tcode)) {
+                        bookingList.deleteByBcode(tcode);
+                        break;
+                    }
+                    bookingCurrent = bookingCurrent.next;
+                }
                 return;
             }
             current = current.next;
         }
 
-        // delete all related records in booking list
-        BookingNode bookingCurrent = bookingList.head;
-        while (bookingCurrent != null) {
-            if (bookingCurrent.data.getBcode().equals(tcode)) {
-                bookingList.deleteByBcode(tcode);
-                break;
-            }
-            bookingCurrent = bookingCurrent.next;
-        }
-        
+        // remove tcode from set
+        tcodeSet.remove(tcode);
+        System.out.println("Delete train successful!");
+
         System.out.println("Train not found");
     }
 
@@ -341,20 +359,26 @@ public class TrainLinkedList {
 
         int index = 1;
         TrainNode current = head;
-        while (index < (k - 1) && current != null) {
+        TrainNode previous = null;
+        while (index < k && current != null) {
+            previous = current;
             current = current.next;
             index++;
         }
 
-        // index = k - 1 now
-
-        if (index != k - 1 || current.next == null) {
+        if (index != k || current == null) {
             System.out.println("ERROR: k element not found");
             return;
         }
 
-        // index = k - 1
-        current.next = current.next.next;
+        if (previous == null) {
+            // delete first
+            head = current.next;
+        } else {
+            previous.next = current.next;
+        }
+        // remove tcode from set
+        tcodeSet.remove(current.data.getTcode());
         System.out.printf("Delete at position %d successful\n", k);
     }
 

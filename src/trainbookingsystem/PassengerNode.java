@@ -24,4 +24,9 @@ public class PassengerNode {
         this.data = data;
         this.next = next;
     }
+
+    @Override
+    public String toString() {
+        return data.getPcode() + "," + data.getName() + "," + data.getPhone();
+    }
 }

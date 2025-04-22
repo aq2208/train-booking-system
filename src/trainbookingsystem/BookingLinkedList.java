@@ -9,6 +9,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -17,19 +19,29 @@ import java.io.IOException;
 public class BookingLinkedList {
     BookingNode head;
 
-    public void addLast(String bcode, String tcode, String pcode, int seat) {
-        // Booking newBooking = new Booking(bcode, tcode, pcode, seat);
-        Booking newBooking = new Booking();
-        BookingNode newNode = new BookingNode(newBooking);
+    public void addLast(String bcode, String pcode, String odateStr, String paidStr, String seatStr) {
+        try {
+            int paid = Integer.parseInt(paidStr);
+            int seat = Integer.parseInt(seatStr);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date odate = formatter.parse(odateStr);
 
-        if (head == null) {
-            head = newNode;
-        } else {
-            BookingNode current = head;
-            while (current.next != null) {
-                current = current.next;
+            Booking newBooking = new Booking(bcode, pcode, odate, paid, seat);
+            // Booking newBooking = new Booking();
+            BookingNode newNode = new BookingNode(newBooking);
+
+            if (head == null) {
+                head = newNode;
+            } else {
+                BookingNode current = head;
+                while (current.next != null) {
+                    current = current.next;
+                }
+                current.next = newNode;
             }
-            current.next = newNode;
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return;
         }
     }
 
@@ -42,13 +54,13 @@ public class BookingLinkedList {
     }
 
     public void loadFromFile() {
-        String fileName = "bookings.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/bookings.txt";
         head = null;
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                this.addLast(fields[0], fields[1], fields[2], Integer.parseInt(fields[3]));
+                this.addLast(fields[0], fields[1], fields[2], fields[3], fields[4]);
             }
             System.out.println("Loaded bookings from file.");
         } catch (IOException e) {
@@ -57,7 +69,7 @@ public class BookingLinkedList {
     }
 
     public void saveToFile() {
-        String fileName = "bookings.txt";
+        String fileName = "/Users/nguyenanhquan/Documents/coding/csd201/train-booking-system/src/trainbookingsystem/bookings.txt";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             BookingNode current = head;
             while (current != null) {

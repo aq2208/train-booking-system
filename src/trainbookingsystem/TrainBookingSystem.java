@@ -4,8 +4,6 @@
  */
 package trainbookingsystem;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -133,6 +131,9 @@ public class TrainBookingSystem {
                         String[] p = scanner.nextLine().split(",");
                         passengerList.addLast(p[0], p[1], p[2]);
                         break;
+                    case "2.3":
+                        passengerList.display();
+                        break;
                     case "2.4":
                         passengerList.saveToFile();
                         break;
@@ -173,6 +174,9 @@ public class TrainBookingSystem {
                     case "3.2":
                         System.out.print("Enter bcode,tcode,pcode,seat: ");
                         String[] b = scanner.nextLine().split(",");
+                        break;
+                    case "3.3":
+                        bookingList.display();
                         break;
                     case "3.4":
                         bookingList.saveToFile();

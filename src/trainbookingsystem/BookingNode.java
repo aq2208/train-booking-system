@@ -24,4 +24,9 @@ public class BookingNode {
         this.data = data;
         this.next = next;
     }
+
+    @Override
+    public String toString() {
+        return data.getBcode() + "," + data.getPcode() + "," + data.getOdate() + "," + data.getPaid() + "," + data.getSeat();
+    }
 }

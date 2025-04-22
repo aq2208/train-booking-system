@@ -1,0 +1,9 @@
+Train
+T010,Express North,Hanoi,Lao Cai,07.00,11.00,80,10
+T011,Express Central,Hue,Danang,08.30,10.30,90,15
+T012,Express South,Saigon,Can Tho,09.00,13.00,100,20
+T013,Night Line,Hanoi,Saigon,21.00,09.00,120,25
+T014,Morning Star,Vinh,Thanh Hoa,05.30,08.00,70,5
+T015,Sunshine Express,Saigon,Nha Trang,10.00,16.00,110,18
+T016,Coastal Rider,Quy Nhon,Nha Trang,13.00,17.00,60,8
+
