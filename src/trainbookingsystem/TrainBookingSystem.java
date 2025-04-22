@@ -4,9 +4,6 @@
  */
 package trainbookingsystem;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -20,109 +17,185 @@ public class TrainBookingSystem {
     /**
      * @param args the command line arguments
      */
-    
+
     static TrainLinkedList trainList = new TrainLinkedList();
     static PassengerLinkedList passengerList = new PassengerLinkedList();
     static BookingLinkedList bookingList = new BookingLinkedList();
-    
+
     public static void main(String[] args) {
-        // TODO code application logic here
-        
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println("\n--- Train Booking System ---");
-            System.out.println("1.1 Load train data from file");
-            System.out.println("1.2 Input & add train to end");
-            System.out.println("1.3 Display trains");
-            System.out.println("2.1 Load passenger data from file");
-            System.out.println("2.2 Input & add passenger to end");
-            System.out.println("2.3 Display passengers");
-            System.out.println("3.1 Load bookings from file");
-            System.out.println("3.2 Add new booking");
-            System.out.println("3.3 Display bookings");
-            System.out.println("0. Exit");
+
+            System.out.println("1.1. Load train data from file");
+            System.out.println("1.2. Input & add train to the end");
+            System.out.println("1.3. Display all train data");
+            System.out.println("1.4. Save train list to file");
+            System.out.println("1.5. Search train by tcode");
+            System.out.println("1.6. Delete train by tcode");
+            System.out.println("1.7. Sort train list by tcode");
+            System.out.println("1.8. Input & add train to beginning");
+            System.out.println("1.9. Add train before position k");
+            System.out.println("1.10. Delete train at position k");
+            System.out.println("1.11. Search train by name");
+            System.out.println("1.12. Search train by tcode and list passengers who booked it");
+
+            System.out.println("\n2.1. Load passenger data from file");
+            System.out.println("2.2. Input & add passenger to the end");
+            System.out.println("2.3. Display all passenger data");
+            System.out.println("2.4. Save passenger list to file");
+            System.out.println("2.5. Search passenger by pcode");
+            System.out.println("2.6. Delete passenger by pcode");
+            System.out.println("2.7. Search passenger by name");
+            System.out.println("2.8. Search passenger by pcode and list all trains booked");
+
+            System.out.println("\n3.1. Load booking data from file");
+            System.out.println("3.2. Book train");
+            System.out.println("3.3. Display all booking data");
+            System.out.println("3.4. Save booking list to file");
+            System.out.println("3.5. Sort bookings by tcode and pcode (descending)");
+            System.out.println("3.6. Pay booking by tcode and pcode");
+
+            System.out.println("\n0. Exit");
+
             System.out.print("Enter your choice: ");
             String choice = scanner.nextLine();
 
-            switch (choice) {
-                case "1.1":
-                    loadTrainsFromFile("trains.txt");
-                    break;
-                case "1.2":
-                    System.out.print("Enter tcode, name, dstation, astation, dtime, atime, seat, booked: ");
-                    String[] t = scanner.nextLine().split(",");
-                    trainList.addToEnd(new TrainNode(t[0], t[1], t[2], t[3], Double.parseDouble(t[4]), Double.parseDouble(t[5]), Integer.parseInt(t[6]), Integer.parseInt(t[7])));
-                    break;
-                case "1.3":
-                    trainList.display();
-                    break;
-                case "2.1":
-                    loadPassengersFromFile("passengers.txt");
-                    break;
-                case "2.2":
-                    System.out.print("Enter pcode, name, phone: ");
-                    String[] p = scanner.nextLine().split(",");
-                    passengerList.addToEnd(new PassengerNode(p[0], p[1], p[2]));
-                    break;
-                case "2.3":
-                    passengerList.display();
-                    break;
-                case "3.1":
-                    loadBookingsFromFile("bookings.txt");
-                    break;
-                case "3.2":
-                    System.out.print("Enter bcode, pcode, seat: ");
-                    String[] b = scanner.nextLine().split(",");
-                    String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                    bookingList.addToEnd(new BookingNode(b[0], b[1], today, 0, Integer.parseInt(b[2])));
-                    break;
-                case "3.3":
-                    bookingList.display();
-                    break;
-                case "0":
-                    System.out.println("Exiting...");
-                    return;
-                default:
-                    System.out.println("Invalid choice.");
+            try {
+                switch (choice) {
+                    case "1.1":
+                        trainList.loadFromFile();
+                        break;
+                    case "1.2":
+                        System.out.print("Enter tcode,name,dstation,astation,dtime,atime,seat,booked: ");
+                        String[] fields = scanner.nextLine().split(",");
+                        trainList.addFirst(fields[0], fields[1], fields[2], fields[3], Double.parseDouble(fields[4]),
+                                Double.parseDouble(fields[5]), Integer.parseInt(fields[6]),
+                                Integer.parseInt(fields[7]));
+                        break;
+                    case "1.3":
+                        trainList.display();
+                        break;
+                    case "1.4":
+                        trainList.saveToFile();
+                        break;
+                    case "1.5":
+                        System.out.print("Enter tcode to search: ");
+                        String tcode = scanner.nextLine();
+                        trainList.searchByTcode(tcode);
+                        break;
+                    case "1.6":
+                        System.out.print("Enter tcode to delete: ");
+                        String tcodeToDelete = scanner.nextLine();
+                        trainList.deleteByTcode(tcodeToDelete, bookingList);
+                        break;
+                    case "1.7":
+                        trainList.sortByTcode();
+                        break;
+                    case "1.8":
+                        System.out.print("Enter tcode,name,dstation,astation,dtime,atime,seat,booked: ");
+                        String[] fields1 = scanner.nextLine().split(",");
+                        trainList.addFirst(fields1[0], fields1[1], fields1[2], fields1[3],
+                                Double.parseDouble(fields1[4]), Double.parseDouble(fields1[5]),
+                                Integer.parseInt(fields1[6]), Integer.parseInt(fields1[7]));
+                        break;
+                    case "1.9":
+                        System.out.print("Enter tcode,name,dstation,astation,dtime,atime,seat,booked: ");
+                        String[] fields2 = scanner.nextLine().split(",");
+                        System.out.print("Enter position to add before: ");
+                        String position = scanner.nextLine();
+                        trainList.addBeforePosition(Integer.parseInt(position), fields2[0], fields2[1], fields2[2],
+                                fields2[3], Double.parseDouble(fields2[4]), Double.parseDouble(fields2[5]),
+                                Integer.parseInt(fields2[6]), Integer.parseInt(fields2[7]));
+                        break;
+                    case "1.10":
+                        System.out.println("Enter kth position to delete: ");
+                        String k = scanner.nextLine();
+                        trainList.deleteAtPosition(k);
+                        break;
+                    case "1.11":
+                        System.out.print("Enter name to search: ");
+                        String name = scanner.nextLine();
+                        trainList.searchByName(name);
+                        break;
+                    case "1.12":
+                        System.out.print("Enter tcode to search: ");
+                        String tcode2 = scanner.nextLine();
+                        trainList.searchBookedByTcode(tcode2, bookingList, passengerList);
+                        break;
+
+                    case "2.1":
+                        passengerList.loadFromFile();
+                        break;
+                    case "2.2":
+                        System.out.print("Enter pcode,name,phone: ");
+                        String[] p = scanner.nextLine().split(",");
+                        passengerList.addLast(p[0], p[1], p[2]);
+                        break;
+                    case "2.4":
+                        passengerList.saveToFile();
+                        break;
+                    case "2.5":
+                        System.out.print("Enter pcode to search: ");
+                        String pcode = scanner.nextLine();
+                        passengerList.searchByPcode(pcode);
+                        break;
+                    case "2.6":
+                        System.out.print("Enter pcode to delete: ");
+                        String pcodeToDelete = scanner.nextLine();
+                        passengerList.deleteByPcode(pcodeToDelete, bookingList);
+                        break;
+                    case "2.7":
+                        System.out.print("Enter name to search: ");
+                        String pname = scanner.nextLine();
+                        PassengerNode currentP = passengerList.head;
+                        boolean foundP = false;
+                        while (currentP != null) {
+                            if (currentP.data.getName().equalsIgnoreCase(pname)) {
+                                System.out.println(currentP.toString());
+                                foundP = true;
+                            }
+                            currentP = currentP.next;
+                        }
+                        if (!foundP)
+                            System.out.println("Passenger not found.");
+                        break;
+                    case "2.8":
+                        System.out.print("Enter pcode: ");
+                        String pc = scanner.nextLine();
+                        passengerList.searchByPcode(pc);
+                        break;
+
+                    case "3.1":
+                        bookingList.loadFromFile();
+                        break;
+                    case "3.2":
+                        System.out.print("Enter bcode,tcode,pcode,seat: ");
+                        String[] b = scanner.nextLine().split(",");
+                        break;
+                    case "3.4":
+                        bookingList.saveToFile();
+                        break;
+                    case "3.5":
+                        // bookingList.sort();
+                        break;
+                    case "3.6":
+                        System.out.print("Enter tcode and pcode to pay: ");
+                        String[] payInput = scanner.nextLine().split(",");
+                        break;
+
+                    case "0":
+                        System.out.println("Exiting...");
+                        scanner.close();
+                        return;
+                    default:
+                        System.out.println("Invalid choice.");
+                }
+            } catch (Exception ex) {
+                System.out.println("ERROR: " + ex.getLocalizedMessage());
             }
-        }
-    }
-    
-    static void loadTrainsFromFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] t = line.split(",");
-                trainList.addToEnd(new TrainNode(t[0], t[1], t[2], t[3], Double.parseDouble(t[4]), Double.parseDouble(t[5]), Integer.parseInt(t[6]), Integer.parseInt(t[7])));
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading trains file.");
         }
     }
 
-    static void loadPassengersFromFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] p = line.split(",");
-                passengerList.addToEnd(new PassengerNode(p[0], p[1], p[2]));
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading passengers file.");
-        }
-    }
-
-    static void loadBookingsFromFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] b = line.split(",");
-                bookingList.addToEnd(new BookingNode(b[0], b[1], b[2], Integer.parseInt(b[3]), Integer.parseInt(b[4])));
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading bookings file.");
-        }
-    }
-    
 }

@@ -9,19 +9,19 @@ package trainbookingsystem;
  * @author DELL
  */
 public class PassengerNode {
-
-    String pcode, name, phone;
+    Passenger data;
     
     PassengerNode next;
 
-    public PassengerNode(String pcode, String name, String phone) {
-        this.pcode = pcode;
-        this.name = name;
-        this.phone = phone;
+    public PassengerNode() {}
+
+    public PassengerNode(Passenger data) {
+        this.data = data;
+        this.next = null;
     }
 
-    @Override
-    public String toString() {
-        return pcode + "," + name + "," + phone;
+    public PassengerNode(Passenger data, PassengerNode next) {
+        this.data = data;
+        this.next = next;
     }
 }
